@@ -47,18 +47,37 @@ fsQCApermTest <- function(y, configs, total.configs, num.iter=10000, my.seed=123
 	for(j in 1:length(configs)){
 		counterex <- NULL
 		consistency <- NULL
+		necessary.condition <- sum(y<configs[[j]])>(length(y)/2)
 		set.seed(my.seed)
 		message(c("Generating permutations for ", names(configs)[j], "..."))
+		if(necessary.condition){
+			message("  Lower-triangular configuration detected...")
+			} else{
+				message("   Upper-triangular configuration detected...")
+				}
 		for(i in 1:num.iter){
 			new.y <- sample(y, size=20, replace=F)
+			if(necessary.condition){
 			consistency <- c(consistency, sum(pmin(configs[[j]], new.y))/sum(new.y))
 			counterex <- c(counterex, sum(configs[[j]] < new.y))
+			} else{
+			consistency <- c(consistency, sum(pmin(configs[[j]], new.y))/sum(configs[[j]]))
+			counterex <- c(counterex, sum(configs[[j]] > new.y))
+			}
 			}
 		
+		if(necessary.condition){
 		obs.counterexamples <- sum(configs[[j]] < y)
+		} else{
+		obs.counterexamples <- sum(configs[[j]] > y)
+		}
 		counterex.p <- sum(counterex<=obs.counterexamples)/length(counterex)
 	
-		obs.consistency <- sum(pmin(configs[[j]], y))/sum(y)
+		if(necessary.condition){
+			obs.consistency <- sum(pmin(configs[[j]], y))/sum(y)
+		} else{
+			obs.consistency <- sum(pmin(configs[[j]], y))/sum(configs[[j]])
+		}
 		consistency.p <- sum(consistency>=obs.consistency)/length(consistency)
 		out.mat[j, 1] <- obs.counterexamples
 		out.mat[j, 2] <- sort(counterex)[length(counterex)*0.05]

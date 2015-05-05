@@ -1,11 +1,11 @@
-1e3fdbff89095eea52d4b02db85f91c7 *DESCRIPTION
+e84e410c673bba10db1c22a992ac20d4 *DESCRIPTION
 69e765e67b6cce7a85c8dbafdeaefaf2 *NAMESPACE
 8fd7d2c2c19e94fe1db3e479efe4c78b *R/Arab.Spring.R
 bd46c58dd5375f440d6ca863600d8f4c *R/csQCAbinTest.R
-54961e7c9df7027e36dfa882ed43a1be *R/fsQCApermTest.R
+d7b29c919053b5f2b9f7e45850d15c1d *R/fsQCApermTest.R
 08c0a32046c06b432c03d8a799070538 *R/mvQCAbinTest.R
 9cc7f2ce38bb1473a79e04beaa4bfd26 *R/p.threshold.adjust.R
-acbed1f3d11c7525733d01d5a5559223 *R/plot.fsQCApt.R
+748bea24e9245b475005a5e5a579ee32 *R/plot.fsQCApt.R
 276c46021681448639384f6aee6c3dba *R/social.revolutions.R
 7a5231b70b024f3b289612bd3defdced *R/summary.csQCAbt.R
 d98b87d91862b69b3ebe87c7c10c8104 *R/summary.fsQCApt.R
