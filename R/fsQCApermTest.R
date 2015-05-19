@@ -41,7 +41,7 @@ fsQCApermTest <- function(y, configs, total.configs, num.iter=10000, my.seed=123
 	if(typeof(configs)!="list"){stop("configs must be a list of the form list(name1=configuration1, name2=configuration2, ...)")}
 	if(is.null(names(configs))){stop("configs must be a list of the form list(name1=configuration1, name2=configuration2, ...)")}
 	if(total.configs < length(configs)){stop("Value of total.configs cannot be less than the length of configs.")}
-	out.mat <- matrix(, nrow = length(configs), ncol = 12)
+	out.mat <- matrix(, nrow = length(configs), ncol = 14)
 	permutes.cex <- list()
 	permutes.con <- list()
 	for(j in 1:length(configs)){
@@ -56,7 +56,7 @@ fsQCApermTest <- function(y, configs, total.configs, num.iter=10000, my.seed=123
 				message("   Upper-triangular configuration detected...")
 				}
 		for(i in 1:num.iter){
-			new.y <- sample(y, size=20, replace=F)
+			new.y <- sample(y, size=length(y), replace=F)
 			if(necessary.condition){
 			consistency <- c(consistency, sum(pmin(configs[[j]], new.y))/sum(new.y))
 			counterex <- c(counterex, sum(configs[[j]] < new.y))
@@ -79,26 +79,35 @@ fsQCApermTest <- function(y, configs, total.configs, num.iter=10000, my.seed=123
 			obs.consistency <- sum(pmin(configs[[j]], y))/sum(configs[[j]])
 		}
 		consistency.p <- sum(consistency>=obs.consistency)/length(consistency)
+		
 		out.mat[j, 1] <- obs.counterexamples
 		out.mat[j, 2] <- sort(counterex)[length(counterex)*0.05]
 		out.mat[j, 3] <- max(counterex)
 		out.mat[j, 4] <- counterex.p
-		out.mat[j, 7] <- obs.consistency
-		out.mat[j, 8] <- min(consistency)
-		out.mat[j, 9] <- sort(consistency)[length(consistency)*0.95]
-		out.mat[j, 10] <- consistency.p
+		out.mat[j, 8] <- obs.consistency
+		out.mat[j, 9] <- min(consistency)
+		out.mat[j, 10] <- sort(consistency)[length(consistency)*0.95]
+		out.mat[j, 11] <- consistency.p
 		permutes.cex[[j]] <- counterex
 		permutes.con[[j]] <- consistency
 	}
 	out.mat[,5] <- p.adjust(c(out.mat[,4], rep(1,(total.configs-length(configs)))), method=adj.method)[1:length(configs)]
 	out.mat[,6] <- p.threshold.adjust(total.configs, adj.method)[rank(out.mat[,4])][1:length(configs)]
-	out.mat[,11] <- p.adjust(c(out.mat[,10], rep(1,(total.configs-length(configs)))), method=adj.method)[1:length(configs)]
-	out.mat[,12] <- p.threshold.adjust(total.configs, adj.method)[rank(out.mat[,10])][1:length(configs)]
+	out.mat[,7] <- sqrt((out.mat[,5]*(1-out.mat[,5]))/length(configs[[1]]))
+	out.mat[,12] <- p.adjust(c(out.mat[,11], rep(1,(total.configs-length(configs)))), method=adj.method)[1:length(configs)]
+	out.mat[,13] <- p.threshold.adjust(total.configs, adj.method)[rank(out.mat[,10])][1:length(configs)]
+	out.mat[,14] <- sqrt((out.mat[,12]*(1-out.mat[,12]))/length(configs[[1]]))
+	
+	for(j in 1:length(configs)){
+	out.mat[j, 2] <- sort(permutes.cex[[j]])[length(permutes.cex[[j]])*out.mat[j,6]]
+	out.mat[j, 10] <- sort(permutes.con[[j]])[length(permutes.con[[j]])*(1-out.mat[j,13])]
+		}
+	
 	rownames(out.mat) <- names(configs)
-	colnames(out.mat) <- c("Observed", "Lower 95% ci", "Upper Bound", "p-raw", "p-adj", "Lower 95% adj", "Observed", "Lower Bound", "Upper 95% ci", "p-raw", "p-adj", "Upper 95% adj")
+	colnames(out.mat) <- c("Observed", "Lower c.i.", "Upper Bound", "p-raw", "p-adj", "p-val-adj", "se(p-adj)", "Observed", "Lower Bound", "Upper c.i.", "p-raw", "p-adj", "p-val-adj", "se(p-adj)")
 	names(permutes.cex) <- names(configs)
 	names(permutes.con) <- names(configs)
-	return.obj <- list(call = match.call(), total.configurations = total.configs, config.names = names(configs), p.adj.method = adj.method, result.cex = out.mat[,1:6], result.con = out.mat[,7:12], permutations.cex = permutes.cex, permutations.con = permutes.con)
+	return.obj <- list(call = match.call(), total.configurations = total.configs, config.names = names(configs), p.adj.method = adj.method, result.cex = out.mat[,1:7], result.con = out.mat[,8:14], permutations.cex = permutes.cex, permutations.con = permutes.con)
 	class(return.obj) <- "fsQCApt"
 	return.obj
 }

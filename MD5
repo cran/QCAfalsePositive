@@ -1,14 +1,14 @@
-e84e410c673bba10db1c22a992ac20d4 *DESCRIPTION
+b1c831c46dfcee58979adadea2d68126 *DESCRIPTION
 69e765e67b6cce7a85c8dbafdeaefaf2 *NAMESPACE
 8fd7d2c2c19e94fe1db3e479efe4c78b *R/Arab.Spring.R
 bd46c58dd5375f440d6ca863600d8f4c *R/csQCAbinTest.R
-d7b29c919053b5f2b9f7e45850d15c1d *R/fsQCApermTest.R
+6b6a64310bce0e822de8bcecdf92aec0 *R/fsQCApermTest.R
 08c0a32046c06b432c03d8a799070538 *R/mvQCAbinTest.R
 9cc7f2ce38bb1473a79e04beaa4bfd26 *R/p.threshold.adjust.R
 748bea24e9245b475005a5e5a579ee32 *R/plot.fsQCApt.R
 276c46021681448639384f6aee6c3dba *R/social.revolutions.R
 7a5231b70b024f3b289612bd3defdced *R/summary.csQCAbt.R
-d98b87d91862b69b3ebe87c7c10c8104 *R/summary.fsQCApt.R
+1fbe0364f9776aed12ab32966d2e468f *R/summary.fsQCApt.R
 2db2cf9fa97c25c3c460978122146ecc *R/summary.mvQCAbt.R
 dc3771678e6df231ddacbb1826330047 *data/Arab.Spring.rda
 ad701d484559acf0cd6b42afdb8acf35 *data/social.revolutions.rda
